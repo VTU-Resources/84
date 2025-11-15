@@ -11,12 +11,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     
     <style>
-        /* Use Inter font */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        /* Use Poppins font */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
         
         body {
-            font-family: 'Inter', sans-serif;
-            /* Ensures content doesn't get hidden behind the fixed bottom bar */
+            font-family: 'Poppins', sans-serif;
+            /* Body no longer needs bottom padding */
+        }
+
+        #main-content {
+             /* Ensures content doesn't get hidden behind the fixed bottom bar */
             padding-bottom: 72px; /* Height of the bottom nav + padding */
         }
 
@@ -62,12 +66,15 @@
 <body class="bg-slate-950 h-full">
 
     <!-- Main Content Area -->
-    <div id="main-content" class="p-4">
+<body class="bg-slate-950 h-full flex flex-col">
+
+    <!-- Main Content Area -->
+    <div id="main-content" class="p-4 flex-1 overflow-y-auto">
 
         <!-- Page 1: Encrypt (Default) -->
         <div id="page-encrypt" class="page-content">
-            <!-- Updated text color -->
-            <h1 class="text-2xl font-bold text-gray-100 mb-6">Encrypt Text</h1>
+            <!-- Updated text color and font weight -->
+            <h1 class="text-2xl font-extrabold text-gray-100 mb-6">Encrypt Text</h1>
             
             <!-- Updated card/input colors -->
             <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
@@ -97,7 +104,8 @@
 
         <!-- Page 2: Decrypt (Hidden) -->
         <div id="page-decrypt" class="page-content hidden">
-            <h1 class="text-2xl font-bold text-gray-100 mb-6">Decrypt Text</h1>
+            <!-- Updated text color and font weight -->
+            <h1 class="text-2xl font-extrabold text-gray-100 mb-6">Decrypt Text</h1>
             
             <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
                 <label for="decrypt-text" class="block text-sm font-medium text-gray-300 mb-1">Ciphertext</label>
@@ -124,13 +132,15 @@
 
         <!-- Page 3: Settings (Hidden) - UPDATED -->
         <div id="page-settings" class="page-content hidden">
-            <h1 class="text-2xl font-bold text-gray-100 mb-6">Settings</h1>
+            <!-- Updated text color and font weight -->
+            <h1 class="text-2xl font-extrabold text-gray-100 mb-6">Settings</h1>
             
             <!-- Theme Card REMOVED -->
 
             <!-- Diagnostics Card -->
             <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-100 mb-3">Diagnostics</h2>
+                <!-- Updated font weight -->
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Diagnostics</h2>
                 <!-- Updated test button styles -->
                 <button id="run-test-button" class="w-full text-indigo-400 font-semibold py-2 px-4 rounded-lg border border-indigo-400 hover:bg-slate-800 transition-colors">
                     Run Logic Test
@@ -142,14 +152,16 @@
 
             <!-- About this App Card -->
             <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-100 mb-2">About this App</h2>
+                <!-- Updated font weight -->
+                <h2 class="text-lg font-bold text-gray-100 mb-2">About this App</h2>
                 <p class="text-gray-400">CS Encrypter v1.1</p>
                 <p class="text-gray-400 text-sm mt-1">A simple, mobile-first text encryption tool.</p>
             </div>
 
             <!-- Data Management Card -->
             <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-100 mb-3">Data Management</h2>
+                <!-- Updated font weight -->
+                <h2 class="text-lg font-bold text-gray-100 mb-3">Data Management</h2>
                 <!-- Updated clear button styles -->
                 <button id="clear-data-button" class="w-full text-red-400 font-semibold py-2 px-4 rounded-lg border border-red-400 hover:bg-slate-800 transition-colors">
                     Clear All Text Fields
@@ -395,22 +407,22 @@
                     document.execCommand('copy');
                     
                     // Pro feedback: change button text
-                    button.textContent = 'Copied!';
+                    button.textContent = 'Kandama Copy Aythu';
                     button.classList.remove('text-indigo-400', 'hover:text-indigo-300');
                     button.classList.add('text-green-400'); // Success color
                     
                     // Show popup message as well
                     showMessage('Encrypted text copied!');
 
-                    // Revert button text after 0.5 seconds (200ms)
+                    // Revert button text after 0.2 seconds (200ms)
                     setTimeout(() => {
                         // Only revert if the text is still "Kandama Copy Aythu" (prevents race conditions)
-                        if (button.textContent === 'Copied!') {
+                        if (button.textContent === 'Kandama Copy Aythu') {
                             button.textContent = originalText;
                             button.classList.remove('text-green-400');
                             button.classList.add('text-indigo-400', 'hover:text-indigo-300');
                         }
-                    }, 800); // 200ms = 0.2 seconds, as requested
+                    }, 200); // 200ms = 0.2 seconds, as requested
 
                 } catch (err) {
                     showMessage('Failed to copy text.');
@@ -436,7 +448,7 @@
                     document.execCommand('copy');
                     
                     // Pro feedback: change button text
-                    button.textContent = 'Copied!';
+                    button.textContent = 'Kandama Copy Aythu';
                     button.classList.remove('text-indigo-400', 'hover:text-indigo-300');
                     button.classList.add('text-green-400'); // Success color
                     
@@ -445,8 +457,8 @@
 
                     // Revert button text after 0.2 seconds (200ms)
                     setTimeout(() => {
-                        // Only revert if the text is still "Copied!" (prevents race conditions)
-                        if (button.textContent === 'Copied!') {
+                        // Only revert if the text is still "Kandama Copy Aythu" (prevents race conditions)
+                        if (button.textContent === 'Kandama Copy Aythu') {
                             button.textContent = originalText;
                             button.classList.remove('text-green-400');
                             button.classList.add('text-indigo-400', 'hover:text-indigo-300');
