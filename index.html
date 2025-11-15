@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Add dark class here if needed -->
+<!-- This is now a permanent dark theme -->
 <html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
@@ -9,19 +9,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load CryptoJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-    
-    <!--
-      Theme persistence script:
-      This runs immediately to prevent a "flash of light mode"
-      if the user's preference is dark.
-    -->
-    <script>
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-    </script>
     
     <style>
         /* Use Inter font */
@@ -42,17 +29,7 @@
             opacity: 1;
         }
 
-        /* Styles for the new theme toggle */
-        .toggle-checkbox:checked {
-            @apply: bg-blue-600;
-            right: 0;
-            border-color: #2563eb; /* blue-600 */
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            @apply: bg-blue-600;
-        }
-
-        /* --- NEW NAV BAR STYLES --- */
+        /* --- NAV BAR STYLES --- */
         /* This wrapper creates the space for the pill,
           ensuring icons don't jump when activated.
         */
@@ -72,110 +49,109 @@
         .nav-item .nav-icon {
             fill: currentColor;
         }
-        /* --- END NEW NAV BAR STYLES --- */
+        /* --- END NAV BAR STYLES --- */
 
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-slate-900 h-full transition-colors duration-200">
+<!-- 
+  Updated body class:
+  - Removed bg-gray-100
+  - Replaced dark:bg-slate-900 with bg-slate-950 (a very dark base)
+  - Removed transition-colors
+-->
+<body class="bg-slate-950 h-full">
 
     <!-- Main Content Area -->
     <div id="main-content" class="p-4">
 
         <!-- Page 1: Encrypt (Default) -->
         <div id="page-encrypt" class="page-content">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Encrypt Text</h1>
+            <!-- Updated text color -->
+            <h1 class="text-2xl font-bold text-gray-100 mb-6">Encrypt Text</h1>
             
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <label for="encrypt-text" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Plain Text</label>
-                <textarea id="encrypt-text" rows="5" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Enter your text..."></textarea>
+            <!-- Updated card/input colors -->
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <label for="encrypt-text" class="block text-sm font-medium text-gray-300 mb-1">Plain Text</label>
+                <textarea id="encrypt-text" rows="5" class="w-full p-2 border border-slate-700 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-slate-800 text-gray-100 placeholder-gray-400" placeholder="Enter your text..."></textarea>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <label for="encrypt-key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secret Key</label>
-                <input type="password" id="encrypt-key" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Enter your secret key...">
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <label for="encrypt-key" class="block text-sm font-medium text-gray-300 mb-1">Secret Key</label>
+                <input type="password" id="encrypt-key" class="w-full p-2 border border-slate-700 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-slate-800 text-gray-100 placeholder-gray-400" placeholder="Enter your secret key...">
             </div>
 
-            <button id="encrypt-button" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+            <!-- Updated button colors from blue to indigo -->
+            <button id="encrypt-button" class="w-full bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                 Encrypt
             </button>
 
-            <div id="encrypt-output-container" class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mt-6 hidden">
+            <div id="encrypt-output-container" class="bg-slate-900 p-4 rounded-lg shadow-md mt-6 hidden">
                 <div class="flex justify-between items-center mb-2">
-                    <label for="encrypt-output" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Encrypted Output</label>
-                    <button id="copy-encrypt-output" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">Copy</button>
+                    <label for="encrypt-output" class="block text-sm font-medium text-gray-300">Encrypted Output</label>
+                    <!-- Updated copy button text color -->
+                    <button id="copy-encrypt-output" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium">Copy</button>
                 </div>
-                <textarea id="encrypt-output" rows="5" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md bg-gray-50 dark:bg-slate-700 text-gray-600 dark:text-gray-300" readonly></textarea>
+                <textarea id="encrypt-output" rows="5" class="w-full p-2 border border-slate-700 rounded-md bg-slate-800 text-gray-300" readonly></textarea>
             </div>
         </div>
 
         <!-- Page 2: Decrypt (Hidden) -->
         <div id="page-decrypt" class="page-content hidden">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Decrypt Text</h1>
+            <h1 class="text-2xl font-bold text-gray-100 mb-6">Decrypt Text</h1>
             
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <label for="decrypt-text" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Ciphertext</label>
-                <textarea id="decrypt-text" rows="5" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Enter your encrypted text..."></textarea>
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <label for="decrypt-text" class="block text-sm font-medium text-gray-300 mb-1">Ciphertext</label>
+                <textarea id="decrypt-text" rows="5" class="w-full p-2 border border-slate-700 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-slate-800 text-gray-100 placeholder-gray-400" placeholder="Enter your encrypted text..."></textarea>
             </div>
 
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <label for="decrypt-key" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secret Key</label>
-                <input type="password" id="decrypt-key" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Enter your secret key...">
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <label for="decrypt-key" class="block text-sm font-medium text-gray-300 mb-1">Secret Key</label>
+                <input type="password" id="decrypt-key" class="w-full p-2 border border-slate-700 rounded-md focus:ring-indigo-500 focus:border-indigo-500 bg-slate-800 text-gray-100 placeholder-gray-400" placeholder="Enter your secret key...">
             </div>
 
-            <button id="decrypt-button" class="w-full bg-blue-600 dark:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+            <button id="decrypt-button" class="w-full bg-indigo-500 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                 Decrypt
             </button>
 
-            <div id="decrypt-output-container" class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mt-6 hidden">
+            <div id="decrypt-output-container" class="bg-slate-900 p-4 rounded-lg shadow-md mt-6 hidden">
                 <div class="flex justify-between items-center mb-2">
-                    <label for="decrypt-output" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Decrypted Output</label>
-                    <button id="copy-decrypt-output" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium">Copy</button>
+                    <label for="decrypt-output" class="block text-sm font-medium text-gray-300">Decrypted Output</label>
+                    <button id="copy-decrypt-output" class="text-sm text-indigo-400 hover:text-indigo-300 font-medium">Copy</button>
                 </div>
-                <textarea id="decrypt-output" rows="5" class="w-full p-2 border border-gray-300 dark:border-slate-700 rounded-md bg-gray-50 dark:bg-slate-700 text-gray-600 dark:text-gray-300" readonly></textarea>
+                <textarea id="decrypt-output" rows="5" class="w-full p-2 border border-slate-700 rounded-md bg-slate-800 text-gray-300" readonly></textarea>
             </div>
         </div>
 
         <!-- Page 3: Settings (Hidden) - UPDATED -->
         <div id="page-settings" class="page-content hidden">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Settings</h1>
+            <h1 class="text-2xl font-bold text-gray-100 mb-6">Settings</h1>
             
-            <!-- Theme Card -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Theme</h2>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">Dark Mode</p>
-                    </div>
-                    <!-- Toggle Switch -->
-                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="theme-toggle" id="theme-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
-                        <label for="theme-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-                    </div>
-                </div>
-            </div>
+            <!-- Theme Card REMOVED -->
 
             <!-- Diagnostics Card -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Diagnostics</h2>
-                <button id="run-test-button" class="w-full text-indigo-600 dark:text-indigo-400 font-semibold py-2 px-4 rounded-lg border border-indigo-600 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900 transition-colors">
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <h2 class="text-lg font-semibold text-gray-100 mb-3">Diagnostics</h2>
+                <!-- Updated test button styles -->
+                <button id="run-test-button" class="w-full text-indigo-400 font-semibold py-2 px-4 rounded-lg border border-indigo-400 hover:bg-slate-800 transition-colors">
                     Run Logic Test
                 </button>
-                <div id="test-results" class="mt-3 text-sm text-gray-700 dark:text-gray-300 hidden space-y-1">
+                <div id="test-results" class="mt-3 text-sm text-gray-300 hidden space-y-1">
                     <!-- Test results will be injected here -->
                 </div>
             </div>
 
             <!-- About this App Card -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">About this App</h2>
-                <p class="text-gray-600 dark:text-gray-400">CS Encrypter v1.1</p>
-                <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">A simple, mobile-first text encryption tool.</p>
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <h2 class="text-lg font-semibold text-gray-100 mb-2">About this App</h2>
+                <p class="text-gray-400">CS Encrypter v1.1</p>
+                <p class="text-gray-400 text-sm mt-1">A simple, mobile-first text encryption tool.</p>
             </div>
 
             <!-- Data Management Card -->
-            <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md mb-4">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Data Management</h2>
-                <button id="clear-data-button" class="w-full text-red-600 dark:text-red-400 font-semibold py-2 px-4 rounded-lg border border-red-600 dark:border-red-400 hover:bg-red-50 dark:hover:bg-red-900 transition-colors">
+            <div class="bg-slate-900 p-4 rounded-lg shadow-md mb-4">
+                <h2 class="text-lg font-semibold text-gray-100 mb-3">Data Management</h2>
+                <!-- Updated clear button styles -->
+                <button id="clear-data-button" class="w-full text-red-400 font-semibold py-2 px-4 rounded-lg border border-red-400 hover:bg-slate-800 transition-colors">
                     Clear All Text Fields
                 </button>
             </div>
@@ -186,21 +162,23 @@
 
     <!-- 
       --- FIXED BOTTOM NAV BAR ---
-      Updated with new structure and classes 
+      Updated with new colors
     -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700 shadow-lg transition-colors duration-200">
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 shadow-lg">
         <div class="flex justify-around max-w-md mx-auto">
             
             <!-- Nav Item 1: Encrypt (Active by default) -->
-            <button data-page="encrypt" class="nav-item active flex-1 flex flex-col items-center justify-center p-2 text-blue-600 dark:text-blue-400">
-                <div class="icon-wrapper bg-blue-100 dark:bg-slate-700">
+            <!-- Updated active colors: text-indigo-400, bg-slate-800 -->
+            <button data-page="encrypt" class="nav-item active flex-1 flex flex-col items-center justify-center p-2 text-indigo-400">
+                <div class="icon-wrapper bg-slate-800">
                     <svg class="nav-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></svg>
                 </div>
                 <span class="nav-label text-xs font-semibold">Encrypt</span>
             </button>
             
             <!-- Nav Item 2: Decrypt (Inactive by default) -->
-            <button data-page="decrypt" class="nav-item flex-1 flex flex-col items-center justify-center p-2 text-gray-600 dark:text-gray-400">
+            <!-- Updated inactive color: text-gray-400 -->
+            <button data-page="decrypt" class="nav-item flex-1 flex flex-col items-center justify-center p-2 text-gray-400">
                 <div class="icon-wrapper">
                     <svg class="nav-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm3 12c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm6-6H6V10h12v2z"/></svg>
                 </div>
@@ -208,7 +186,8 @@
             </button>
             
             <!-- Nav Item 3: Settings (Inactive by default) -->
-            <button data-page="settings" class="nav-item flex-1 flex flex-col items-center justify-center p-2 text-gray-600 dark:text-gray-400">
+            <!-- Updated inactive color: text-gray-400 -->
+            <button data-page="settings" class="nav-item flex-1 flex flex-col items-center justify-center p-2 text-gray-400">
                 <div class="icon-wrapper">
                     <svg class="nav-icon w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17-.59-1.69.98l-2.49-1c-.23-.08-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24-.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
                 </div>
@@ -218,7 +197,8 @@
     </nav>
 
     <!-- Message Box / Toast -->
-    <div id="message-box" class="fixed bottom-20 left-1/2 -translate-x-1/2 w-11/12 max-w-sm p-4 bg-gray-800 text-white rounded-lg shadow-lg opacity-0 -translate-y-10 z-50">
+    <!-- Updated to use indigo-600 to match main buttons -->
+    <div id="message-box" class="fixed bottom-20 left-1/2 -translate-x-1/2 w-11/12 max-w-sm p-4 bg-indigo-600 text-white rounded-lg shadow-lg opacity-0 -translate-y-10 z-50">
         <span id="message-text"></span>
     </div>
 
@@ -248,14 +228,14 @@
             const messageText = document.getElementById('message-text');
             let messageTimer;
 
-            // --- New Settings Page Elements ---
-            const themeToggle = document.getElementById('theme-toggle');
+            // --- Settings Page Elements ---
+            // const themeToggle = document.getElementById('theme-toggle'); // REMOVED
             const runTestButton = document.getElementById('run-test-button');
             const testResults = document.getElementById('test-results');
 
             
             // --- UPDATED NAVIGATION LOGIC ---
-            // This now handles the pill and text styles
+            // Simplified for a single dark theme
             navItems.forEach(item => {
                 item.addEventListener('click', () => {
                     const pageId = `page-${item.dataset.page}`;
@@ -267,15 +247,14 @@
                     navItems.forEach(nav => {
                         nav.classList.remove('active');
                         // Remove active colors, add inactive colors
-                        nav.classList.remove('text-blue-600', 'dark:text-blue-400');
-                        nav.classList.add('text-gray-600', 'dark:text-gray-400');
+                        nav.classList.remove('text-indigo-400'); // Active color
+                        nav.classList.add('text-gray-400'); // Inactive color
 
-                        // Find child elements
                         const iconWrapper = nav.querySelector('.icon-wrapper');
                         const navLabel = nav.querySelector('.nav-label');
 
                         // Remove pill background
-                        iconWrapper.classList.remove('bg-blue-100', 'dark:bg-slate-700');
+                        iconWrapper.classList.remove('bg-slate-800'); // Active pill bg
                         
                         // Set font to medium (inactive)
                         navLabel.classList.remove('font-semibold');
@@ -288,15 +267,14 @@
                     // Activate clicked nav item
                     item.classList.add('active');
                     // Remove inactive colors, add active colors
-                    item.classList.remove('text-gray-600', 'dark:text-gray-400');
-                    item.classList.add('text-blue-600', 'dark:text-blue-400');
+                    item.classList.remove('text-gray-400'); // Inactive color
+                    item.classList.add('text-indigo-400'); // Active color
 
-                    // Find child elements
                     const iconWrapper = item.querySelector('.icon-wrapper');
                     const navLabel = item.querySelector('.nav-label');
 
                     // Add pill background
-                    iconWrapper.classList.add('bg-blue-100', 'dark:bg-slate-700');
+                    iconWrapper.classList.add('bg-slate-800'); // Active pill bg
 
                     // Set font to semibold (active)
                     navLabel.classList.remove('font-medium');
@@ -395,21 +373,7 @@
 
             // --- Settings Logic ---
 
-            // 1. Theme Toggle
-            // Set initial state of the toggle
-            if (document.documentElement.classList.contains('dark')) {
-                themeToggle.checked = true;
-            }
-
-            themeToggle.addEventListener('change', () => {
-                if (themeToggle.checked) {
-                    document.documentElement.classList.add('dark');
-                    localStorage.theme = 'dark';
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.theme = 'light';
-                }
-            });
+            // 1. Theme Toggle - REMOVED
 
             // 2. Run Logic Test
             runTestButton.addEventListener('click', () => {
@@ -428,21 +392,22 @@
                     console.error('Logic test failed:', e);
                 }
 
-                // Break down the encrypted string for better display as in the image
+                // Break down the encrypted string for better display
                 const breakPoint = Math.floor(encrypted.length / 2);
                 const encryptedLine1 = encrypted.substring(0, breakPoint);
                 const encryptedLine2 = encrypted.substring(breakPoint);
 
+                // Updated test result colors
                 if (pass) {
                     testResults.innerHTML = `
-                        <p class="text-green-600 dark:text-green-400 font-semibold">Test Passed!</p>
+                        <p class="text-green-400 font-semibold">Test Passed!</p>
                         <p><strong>Original:</strong> "${original}"</p>
                         <p><strong>Key:</strong> "${key}"</p>
                         <p><strong>Encrypted:</strong> ${encryptedLine1}<br>${encryptedLine2}</p>
                         <p><strong>Decrypted:</strong> "${decrypted}"</p>
                     `;
                 } else {
-                    testResults.innerHTML = `<p class="text-red-600 dark:text-red-400 font-semibold">Test Failed!</p>`;
+                    testResults.innerHTML = `<p class="text-red-400 font-semibold">Test Failed!</p>`;
                 }
                 testResults.classList.remove('hidden');
             });
