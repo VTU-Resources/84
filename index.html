@@ -344,7 +344,7 @@
                 }
             });
 
-            // --- Copy to Clipboard Logic ---
+            <!-- --- Copy to Clipboard Logic ---
             function copyToClipboard(elementId, message) {
                 const textarea = document.getElementById(elementId);
                 if (!textarea.value) {
@@ -370,6 +370,94 @@
 
             copyDecryptOutput.addEventListener('click', () => {
                 copyToClipboard('decrypt-output', 'Decrypted text copied!');
+            });
+
+            // --- Settings Logic ---
+-->
+
+            <!-- --- Copy to Clipboard Logic ---
+            // Replaced old function with direct listeners for custom button feedback
+            
+            copyEncryptOutput.addEventListener('click', () => {
+                const button = copyEncryptOutput;
+                const originalText = button.textContent;
+                const textarea = document.getElementById('encrypt-output');
+                
+                if (!textarea.value) {
+                    showMessage('Nothing to copy.');
+                    return;
+                }
+                
+                textarea.select();
+                textarea.setSelectionRange(0, 99999); 
+                
+                try {
+                    document.execCommand('copy');
+                    
+                    // Pro feedback: change button text
+                    button.textContent = 'Copied!';
+                    button.classList.remove('text-indigo-400', 'hover:text-indigo-300');
+                    button.classList.add('text-green-400'); // Success color
+                    
+                    // Show popup message as well
+                    showMessage('Encrypted text copied!');
+
+                    // Revert button text after 0.5 seconds (200ms)
+                    setTimeout(() => {
+                        // Only revert if the text is still "Kandama Copy Aythu" (prevents race conditions)
+                        if (button.textContent === 'Copied!') {
+                            button.textContent = originalText;
+                            button.classList.remove('text-green-400');
+                            button.classList.add('text-indigo-400', 'hover:text-indigo-300');
+                        }
+                    }, 800); // 200ms = 0.2 seconds, as requested
+
+                } catch (err) {
+                    showMessage('Failed to copy text.');
+                    console.error('Copy error:', err);
+                }
+                window.getSelection().removeAllRanges();
+            });
+
+            copyDecryptOutput.addEventListener('click', () => {
+                const button = copyDecryptOutput;
+                const originalText = button.textContent;
+                const textarea = document.getElementById('decrypt-output');
+
+                if (!textarea.value) {
+                    showMessage('Nothing to copy.');
+                    return;
+                }
+                
+                textarea.select();
+                textarea.setSelectionRange(0, 99999); 
+
+                try {
+                    document.execCommand('copy');
+                    
+                    // Pro feedback: change button text
+                    button.textContent = 'Copied!';
+                    button.classList.remove('text-indigo-400', 'hover:text-indigo-300');
+                    button.classList.add('text-green-400'); // Success color
+                    
+                    // Show popup message as well
+                    showMessage('Decrypted text copied!');
+
+                    // Revert button text after 0.2 seconds (200ms)
+                    setTimeout(() => {
+                        // Only revert if the text is still "Copied!" (prevents race conditions)
+                        if (button.textContent === 'Copied!') {
+                            button.textContent = originalText;
+                            button.classList.remove('text-green-400');
+                            button.classList.add('text-indigo-400', 'hover:text-indigo-300');
+                        }
+                    }, 200); // 200ms = 0.2 seconds, as requested
+
+                } catch (err) {
+                    showMessage('Failed to copy text.');
+                    console.error('Copy error:', err);
+                }
+                window.getSelection().removeAllRanges();
             });
 
             // --- Settings Logic ---
